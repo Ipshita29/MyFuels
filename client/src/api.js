@@ -1,33 +1,35 @@
 const BASE = "http://localhost:5000/api";
 
-const getToken = () => localStorage.getItem("token");
+const token = () => localStorage.getItem("mf_token");
+
 const headers = () => ({
   "Content-Type": "application/json",
-  Authorization: `Bearer ${getToken()}`,
+  Authorization: `Bearer ${token()}`,
 });
 
-// Auth
-export const signup = (data) =>
-  fetch(`${BASE}/signup`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }).then((r) => r.json());
+const post = (url, body, authRequired = false) =>
+  fetch(`${BASE}${url}`, {
+    method: "POST",
+    headers: authRequired ? headers() : { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  }).then((r) => r.json());
 
-export const login = (data) =>
-  fetch(`${BASE}/login`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }).then((r) => r.json());
-
-// User
-export const placeOrder = (data) =>
-  fetch(`${BASE}/orders`, { method: "POST", headers: headers(), body: JSON.stringify(data) }).then((r) => r.json());
-
-export const getMyOrders = () =>
-  fetch(`${BASE}/orders/my`, { headers: headers() }).then((r) => r.json());
-
-// Admin
-export const getAllOrders = (params = {}) => {
+const get = (url, params = {}) => {
   const q = new URLSearchParams(params).toString();
-  return fetch(`${BASE}/admin/orders?${q}`, { headers: headers() }).then((r) => r.json());
+  return fetch(`${BASE}${url}${q ? "?" + q : ""}`, { headers: headers() }).then((r) => r.json());
 };
 
-export const updateOrderStatus = (id, status) =>
-  fetch(`${BASE}/admin/orders/${id}/status`, { method: "PATCH", headers: headers(), body: JSON.stringify({ status }) }).then((r) => r.json());
+const patch = (url, body) =>
+  fetch(`${BASE}${url}`, {
+    method: "PATCH",
+    headers: headers(),
+    body: JSON.stringify(body),
+  }).then((r) => r.json());
 
-export const getStats = () =>
-  fetch(`${BASE}/admin/stats`, { headers: headers() }).then((r) => r.json());
+export const signup = (data) => post("/signup", data);
+export const login = (data) => post("/login", data);
+export const placeOrder = (data) => post("/orders", data, true);
+export const getMyOrders = () => get("/orders/my");
+export const getAllOrders = (params) => get("/admin/orders", params);
+export const updateOrderStatus = (id, status) => patch(`/admin/orders/${id}/status`, { status });
+export const getStats = () => get("/admin/stats");
