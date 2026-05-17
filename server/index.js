@@ -13,6 +13,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("MyFuels API is running");
+});
+
 // ── Middleware ────────────────────────────────────────────────────────────────
 const auth = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
