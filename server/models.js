@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true },
+    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["user", "admin"], default: "user" },
   },
@@ -16,7 +16,7 @@ const orderSchema = new mongoose.Schema(
     userName: { type: String },
     fuelType: { type: String, enum: ["Petrol", "Diesel", "CNG", "LPG"], required: true },
     quantity: { type: Number, required: true, min: 1 },
-    deliveryLocation: { type: String, required: true },
+    deliveryLocation: { type: String, required: true, trim: true },
     preferredTime: { type: String, required: true },
     status: {
       type: String,
