@@ -1,4 +1,4 @@
-const BASE = "http://localhost:5000/api";
+const BASE = "https://myfuels.onrender.com/api";
 
 const token = () => localStorage.getItem("mf_token");
 
