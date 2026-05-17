@@ -136,6 +136,10 @@ const AuthPage = () => {
               <span style={{ color: "var(--primary)", fontWeight: 700 }}>Admin demo:</span><br />
               admin@myfuels.com / admin123
             </div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--on-surface-variant)", lineHeight: 1.8 }}>
+              <span style={{ color: "var(--primary)", fontWeight: 700 }}>User demo:</span><br />
+              user@example.com / user123
+            </div>
           </div>
         </div>
       </div>
